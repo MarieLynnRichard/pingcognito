@@ -13,16 +13,17 @@ app.get("/grok", async (req, res) => {
   const url = `https://scatistics.com/api/01/index.php?key=2922570813&action=search&content=${query}`;
 
   try {
-    const response = await fetch(url);
-    const data = await response.text(); // If your API returns JSON, change to response.json()
-    
-    // Declare output format
-    res.setHeader("Content-Type", "application/json");
-    
-    res.status(200).send(data);
-  } catch (err) {
-    res.status(500).json({ error: "API call failed", details: err.toString() });
-  }
+  const response = await fetch(url);
+  const raw = await response.text();
+
+  console.log("Quentin received:", raw); // For debugging
+
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).send(raw);
+} catch (err) {
+  console.error("API failed:", err); // Add this
+  res.status(500).json({ error: "API call failed", details: err.toString() });
+}
 });
 
 app.listen(process.env.PORT || 3000);

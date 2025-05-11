@@ -14,8 +14,11 @@ app.get("/grok", async (req, res) => {
 
   try {
     const response = await fetch(url);
-    const data = await response.text(); // fallback in case JSON fails
+    const data = await response.text(); // If your API returns JSON, change to response.json()
+    
+    // Declare output format
     res.setHeader("Content-Type", "application/json");
+    
     res.status(200).send(data);
   } catch (err) {
     res.status(500).json({ error: "API call failed", details: err.toString() });
@@ -23,3 +26,4 @@ app.get("/grok", async (req, res) => {
 });
 
 app.listen(process.env.PORT || 3000);
+
